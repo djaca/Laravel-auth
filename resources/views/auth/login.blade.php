@@ -5,28 +5,22 @@
         <div class="panel panel-default">
             <div class="panel-heading">Login</div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
-                    {{ csrf_field() }}
 
-                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                        <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                {!! Form::open(['route' => 'login', 'method' => 'post', 'class' => 'form-horizontal']) !!}
+
+                	<div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
+                        {!! Form::label('email', 'E-Mail Address', ['class' => 'col-md-4 control-label']) !!}
                         <div class="col-md-6">
-                            <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" autofocus>
+                            {!! Form::email('email', null, ['class' => 'form-control', 'autofocus']) !!}
                             @include('auth.partials.inputError', ['input' => 'email'])
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                        <label for="password" class="col-md-4 control-label">Password</label>
-
+                    <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
+                        {!! Form::label('password', 'Password', ['class' => 'col-md-4 control-label']) !!}
                         <div class="col-md-6">
-                            <input id="password" type="password" class="form-control" name="password">
-
-                            @if ($errors->has('password'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
-                            @endif
+                            {!! Form::password('password', ['class' => 'form-control']) !!}
+                            @include('auth.partials.inputError', ['input' => 'password'])
                         </div>
                     </div>
 
@@ -45,11 +39,10 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fa fa-btn fa-sign-in"></i> Login
                             </button>
-
                             <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
                         </div>
                     </div>
-                </form>
+                {!! Form::close() !!}
             </div>
         </div>
 @endsection

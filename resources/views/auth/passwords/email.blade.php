@@ -6,20 +6,14 @@
         <div class="panel panel-default">
             <div class="panel-heading">Reset Password</div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/email') }}">
-                    {{ csrf_field() }}
 
-                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                        <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                {!! Form::open(['url' => '/password/email', 'method' => 'post', 'class' => 'form-horizontal']) !!}
 
+                    <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
+                        {!! Form::label('email', 'E-Mail Address', ['class' => 'col-md-4 control-label']) !!}
                         <div class="col-md-6">
-                            <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
-
-                            @if ($errors->has('email'))
-                                <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                            @endif
+                            {!! Form::email('email', null, ['class' => 'form-control', 'autofocus']) !!}
+                            @include('auth.partials.inputError', ['input' => 'email'])
                         </div>
                     </div>
 
@@ -30,7 +24,8 @@
                             </button>
                         </div>
                     </div>
-                </form>
+
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
