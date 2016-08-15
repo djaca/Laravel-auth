@@ -56,7 +56,12 @@
         </div>
     </nav>
 
-    @yield('content')
+    <div class="container">
+        <div class="row">
+            @yield('content')
+        </div>
+    </div>
+
 
     <script src="{{ elixir('js/app.js') }}"></script>
 </body>
