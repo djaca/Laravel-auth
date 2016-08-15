@@ -58,11 +58,16 @@
 
     <div class="container">
         <div class="row">
+            @include('flash::message')
             @yield('content')
         </div>
     </div>
 
 
     <script src="{{ elixir('js/app.js') }}"></script>
+    <script>
+        $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+        $('#flash-overlay-modal').modal();
+    </script>
 </body>
 </html>
