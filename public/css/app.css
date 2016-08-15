@@ -5766,4 +5766,10 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
+body {
+  font-family: 'Lato'; }
+
+.fa-btn {
+  margin-right: 6px; }
+
 /*# sourceMappingURL=app.css.map */
