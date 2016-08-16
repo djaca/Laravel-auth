@@ -20,6 +20,26 @@ class SocialAuthController extends Controller
      */
     protected $redirectTo = '/';
 
+    /**
+     * @var User
+     */
+    private $user;
+
+    /**
+     * SocialAuthController constructor.
+     *
+     * @param User $user
+     */
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @param $provider
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function redirectToProvider($provider)
     {
         if (empty(Config::get('services.' . $provider))) {
@@ -30,43 +50,58 @@ class SocialAuthController extends Controller
         return Socialite::driver($provider)->redirect();
     }
 
+    /**
+     * @param $provider
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function handleProviderCallback($provider)
     {
-        $user = Socialite::driver($provider)->user();
+        $user = $this->findOrCreateUser(
+            Socialite::with($provider)->user(), $provider
+        );
 
-        $socialUser = null;
+        return $this->logIn($user);
+    }
 
-        //Check is this email present
-        $userCheck = User::where('email', $user->email)->first();
+    /**
+     * Find user or create one.
+     *
+     * @param $provider_user
+     * @param $provider
+     * @return $user
+     */
+    private function findOrCreateUser($provider_user, $provider)
+    {
+        $provider_identity = Social::firstOrNew(['provider' => $provider, 'provider_id' => $provider_user->id]);
 
-        if( ! empty($userCheck)) {
-            $socialUser = $userCheck;
-        } else {
-            $sameSocialId = Social::where('social_id', $user->id)->where('provider', $provider )->first();
-
-            if(empty($sameSocialId)) {
-                //There is no combination of this social id and provider, so create new one
-                $newSocialUser = new User;
-                $newSocialUser->email = $user->email;
-                $newSocialUser->name = $user->name;
-                $newSocialUser->save();
-
-                $socialData = new Social;
-                $socialData->social_id = $user->id;
-                $socialData->provider= $provider;
-                $newSocialUser->social()->save($socialData);
-
-                $socialUser = $newSocialUser;
-            }else {
-                //Load this existing social user
-                $socialUser = $sameSocialId->user;
-            }
-
+        if($provider_identity->user_id) {
+            return $this->user->find($provider_identity->user_id);
         }
 
-        auth()->login($socialUser, true);
+        $user = $this->user->firstOrNew(['email' => $provider_user->email]);
 
-        flash('Welcome back, ' . $user->name, 'success');
+        if( ! $user->exists) {
+            $user->fill(['name' => $provider_user->name,])->save();
+        }
+
+        $provider_identity->fill(['user_id' => $user->id,])->save();
+
+        return $user;
+    }
+
+    /**
+     * Sign in user with flash message.
+     *
+     * @param $user
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function login($user)
+    {
+        auth()->login($user, true);
+
+        flash('You have been signed in.', 'success');
         return redirect()->intended($this->redirectPath());
     }
 }
