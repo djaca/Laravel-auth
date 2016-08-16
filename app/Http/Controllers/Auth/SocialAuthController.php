@@ -23,7 +23,8 @@ class SocialAuthController extends Controller
     public function redirectToProvider($provider)
     {
         if (empty(Config::get('services.' . $provider))) {
-            return view('pages.status')->with('error', 'No such provider');
+            flash('No such provider', 'danger');
+            return redirect('/');
         }
 
         return Socialite::driver($provider)->redirect();

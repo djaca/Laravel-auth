@@ -46,8 +46,24 @@
 
                 <hr>
 
-                <a href="{{ route('login.social', 'github') }}" class="btn btn-social btn-github">
+                <a href="{{ route('login.social', 'github') }}" class="btn btn-social btn-xs btn-github">
                     <span class="fa fa-github"></span> Sign in with Github
+                </a>
+
+                <a href="{{ route('login.social', 'linkedin') }}" class="btn btn-social btn-xs btn-linkedin">
+                    <span class="fa fa-linkedin"></span> Sign in with Linkedin
+                </a>
+
+                <a href="{{ route('login.social', 'google') }}" class="btn btn-social btn-xs btn-google">
+                    <span class="fa fa-google"></span> Sign in with Google
+                </a>
+
+                <a href="{{ route('login.social', 'twitter') }}" class="btn btn-social btn-xs btn-twitter">
+                    <span class="fa fa-twitter"></span> Sign in with Twitter
+                </a>
+
+                <a href="{{ route('login.social', 'facebook') }}" class="btn btn-social btn-xs btn-facebook">
+                    <span class="fa fa-facebook"></span> Sign in with Facebook
                 </a>
             </div>
         </div>
