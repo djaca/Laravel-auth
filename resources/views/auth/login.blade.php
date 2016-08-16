@@ -43,6 +43,12 @@
                         </div>
                     </div>
                 {!! Form::close() !!}
+
+                <hr>
+
+                <a href="{{ route('login.social', 'github') }}" class="btn btn-social btn-github">
+                    <span class="fa fa-github"></span> Sign in with Github
+                </a>
             </div>
         </div>
 @endsection

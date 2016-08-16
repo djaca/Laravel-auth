@@ -1,3 +1,5 @@
+// Font Awesome
+@import "node_modules/font-awesome/scss/font-awesome.scss";
 
 // Fonts
 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
@@ -7,6 +9,9 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+// Social Buttons
+@import "bootstrap-social";
 
 body {
   font-family: 'Lato';

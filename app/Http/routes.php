@@ -31,4 +31,8 @@ Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
 Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
 Route::post('password/reset', 'Auth\PasswordController@reset');
 
+// Socialite Github
+Route::get('/social/redirect/{provider}', 'Auth\SocialAuthController@redirectToProvider')->name('login.social');
+Route::get('/social/handle/{provider}', 'Auth\SocialAuthController@handleProviderCallback');
+
 Route::get('/home', 'HomeController@index');
