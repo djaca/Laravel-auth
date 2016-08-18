@@ -82,7 +82,7 @@ class SocialAuthController extends Controller
         $user = $this->user->firstOrNew(['email' => $provider_user->email]);
 
         if( ! $user->exists) {
-            $user->fill(['name' => $provider_user->name,])->save();
+            $user->fill(['name' => $this->getName($provider_user),])->save();
             $user->assignRole('user');
         }
 
@@ -104,5 +104,16 @@ class SocialAuthController extends Controller
 
         flash('You have been signed in.', 'success');
         return redirect()->intended($this->redirectPath());
+    }
+
+    /**
+     * Name to be used.
+     *
+     * @param $provider_user
+     * @return mixed
+     */
+    private function getName($provider_user)
+    {
+        return ($provider_user->name) ?: $provider_user->nickname;
     }
 }
