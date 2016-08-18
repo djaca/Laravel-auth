@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "laracasts/flash": "^2.0",
         "laravelcollective/html": "^5.2",
-        "laravel/socialite": "^2.0"
+        "laravel/socialite": "^2.0",
+        "spatie/laravel-permission": "^1.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
