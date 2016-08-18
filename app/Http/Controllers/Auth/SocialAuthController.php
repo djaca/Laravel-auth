@@ -83,6 +83,7 @@ class SocialAuthController extends Controller
 
         if( ! $user->exists) {
             $user->fill(['name' => $provider_user->name,])->save();
+            $user->assignRole('user');
         }
 
         $provider_identity->fill(['user_id' => $user->id,])->save();
